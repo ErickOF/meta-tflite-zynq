@@ -8,17 +8,21 @@ SECTION = "tflite"
 LICENSE = "Apache-2.0"
 LIC_FILES_CHKSUM = "file://LICENSE;md5=4158a261ca7f2525513e31ba9c50ae9"
 
-SRC_URI = "git://github.com/tensorflow/tensorflow.git"
+# Compute branch info from ${PV} as Base PV...
+BPV = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
+# Since they tag off of something resembling ${PV}, use it.
+SRCREV = "v${PV}"
+
+SRC_URI = " \
+    git://github.com/tensorflow/tensorflow.git;branch=r${BPV};protocol=https \
+"
 
 S = "${WORKDIR}/git"
 
 inherit cmake
 
-DEPENDS += " \
-    unzip-native
-    python3-native
-    python3-numpy-native
-"
+DEPENDS += " unzip-native python3-native python3-numpy-native"
 
 TUNE_CCARGS = ""
 
