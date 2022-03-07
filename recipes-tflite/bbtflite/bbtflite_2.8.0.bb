@@ -22,8 +22,8 @@ inherit cmake
 
 DEPENDS += " unzip-native python3-native python3-numpy-native"
 
-EXTRA_OECMAKE = "\
-    -DCMAKE_CXX_FLAGS_ALL_WARNINGS:STRING='-Wno-psabi'
+EXTRA_OECMAKE = " \
+    -DCMAKE_CXX_FLAGS_ALL_WARNINGS:STRING='-Wno-psabi' \
     -DCMAKE_BUILD_TYPE=Release \
     -DTFLITE_ENABLE_XNNPACK=OFF \
     -DCMAKE_SYSTEM_NAME=Linux \
