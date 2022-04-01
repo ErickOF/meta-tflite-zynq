@@ -14,11 +14,12 @@ DPV = "${@'.'.join(d.getVar('PV').split('.')[0:3])}"
 # Since they tag off of something resembling ${PV}, use it.
 SRCREV = "v${PV}"
 
-SRC_URI = "git://github.com/tensorflow/tensorflow.git;protocol=https;tag=v${BPV};nobranch=1"
+SRC_URI = "git://github.com/ErickOF/tensorflow.git;protocol=https;tag=v${BPV};nobranch=1"
 
 S = "${WORKDIR}/git/tensorflow/lite"
+TF = "${WORKDIR}/git/tensorflow"
 
-inherit cmake
+inherit pkgconfig cmake
 
 DEPENDS += " unzip-native python3-native python3-numpy-native"
 
@@ -27,16 +28,14 @@ EXTRA_OECMAKE = " \
     -DCMAKE_BUILD_TYPE=Release \
     -DTFLITE_ENABLE_XNNPACK=OFF \
     -DCMAKE_SYSTEM_NAME=Linux \
-    -DCMAKE_SYSTEM_PROCESSOR=arm \
+    -DCMAKE_SYSTEM_PROCESSOR=armv7 \
     -DBUILD_SHARED_LIBS=ON \
 "
 
-do_compile_append() {
-    cmake --build . -j -t label_image
-}
-
 do_install() {
-    install -d ${D}${bindir}
+    install -d ${D}${libdir}
+    install -d ${D}${incdir}/tensorflow
 
-    install -m 755 examples/label_image/label_image ${D}${bindir}
+    install -m 755 libtensorflow-lite.so ${D}${libdir}
+    install -m 755 ${s} ${D}/${incdir}/tensorflow
 }
