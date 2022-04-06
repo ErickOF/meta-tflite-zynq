@@ -40,33 +40,33 @@ RDEPENDS_${PN} += "bash"
 RDEPENDS_${PN} += "make"
 
 do_install() {
-    install -d ${D}/home/root/lib
-    install -d ${D}/home/root/tensorflow/lite
-    install -d ${D}/home/root/tensorflow/core
-    install -d ${D}/home/root/flatbuffers
+    install -d ${D}/${libdir}
+    install -d ${D}/usr/include/tensorflow/lite
+    install -d ${D}/usr/include/tensorflow/core
+    install -d ${D}/usr/include/flatbuffers
 
-    cp -r ${TF}/lite ${D}/home/root/tensorflow
-    cp -r ${TF}/core ${D}/home/root/tensorflow
-    cp -r ${WORKDIR}/build/flatbuffers/include/flatbuffers ${D}/home/root
+    install -m 0755 ${TF}/lite ${D}/usr/include/tensorflow
+    install -m 0755 ${TF}/core ${D}/usr/include/tensorflow
+    install -m 0755 ${WORKDIR}/build/flatbuffers/include/flatbuffers ${D}/usr/include
 
-    install -m 755 ${WORKDIR}/build/_deps/cpuinfo-build/libcpuinfo.so ${D}${libdir}
-    install -m 755 ${WORKDIR}/build/_deps/farmhash-build/libfarmhash.so ${D}/home/root/lib
-    install -m 755 ${WORKDIR}/build/_deps/fft2d-build/libfft2d_fftsg.so ${D}/home/root/lib
-    install -m 755 ${WORKDIR}/build/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/home/root/lib
-    install -m 755 ${WORKDIR}/build/libtensorflow-lite.so ${D}/home/root/lib
+    install -m 0644 ${WORKDIR}/build/_deps/cpuinfo-build/libcpuinfo.so ${D}/${libdir}
+    install -m 0644 ${WORKDIR}/build/_deps/farmhash-build/libfarmhash.so ${D}/${libdir}
+    install -m 0644 ${WORKDIR}/build/_deps/fft2d-build/libfft2d_fftsg.so ${D}/${libdir}
+    install -m 0644 ${WORKDIR}/build/_deps/fft2d-build/libfft2d_fftsg2d.so ${D}/${libdir}
+    install -m 0644 ${WORKDIR}/build/libtensorflow-lite.so ${D}/${libdir}
 }
 
 SOLIBS = ".so"
 SOLIBS += ".so.*"
 FILES_SOLIBSDEV = ""
 
-FILES_${PN} += "/home/root/lib"
-FILES_${PN} += "/home/root/flatbuffers"
-FILES_${PN} += "/home/root/tensorflow"
-${PN}-dev += "/home/root/lib/*.so"
+FILES_${PN} += "${libdir}"
+FILES_${PN} += "/usr/include/flatbuffers"
+FILES_${PN} += "/usr/include/tensorflow"
+${PN}-dev += "${libdir}/*.so"
 
-FILES_${PN}-statucdev += "/home/root/tensorflow/lite/ios/testdata/duplicate_names/input.a"
-FILES_${PN}-statucdev += "/home/root/tensorflow/lite/ios/testdata/extended_filename/input.a"
-FILES_${PN}-statucdev += "/home/root/tensorflow/lite/ios/testdata/odd_bytes/input.a"
-FILES_${PN}-statucdev += "/home/root/tensorflow/lite/ios/testdata/simple/input.a"
-FILES_${PN}-statucdev += "/home/root/tensorflow/lite/ios/testdata/skip_same_fil/input.a"
+FILES_${PN}-statucdev += "/usr/include/tensorflow/lite/ios/testdata/duplicate_names/input.a"
+FILES_${PN}-statucdev += "/usr/include/tensorflow/lite/ios/testdata/extended_filename/input.a"
+FILES_${PN}-statucdev += "/usr/include/tensorflow/lite/ios/testdata/odd_bytes/input.a"
+FILES_${PN}-statucdev += "/usr/include/tensorflow/lite/ios/testdata/simple/input.a"
+FILES_${PN}-statucdev += "/usr/include/tensorflow/lite/ios/testdata/skip_same_fil/input.a"
